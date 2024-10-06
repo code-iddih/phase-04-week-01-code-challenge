@@ -27,7 +27,7 @@ class Hero(db.Model, SerializerMixin):
     powers = db.relationship('Power', secondary='hero_powers', back_populates='heroes', overlaps='hero_powers')
 
     def __repr__(self):
-        return f'<Hero {self.name} aka {self.super_name}>'
+        return f'<Hero {self.id}: {self.name} aka {self.super_name}>'
 
 # Power Model
 class Power(db.Model, SerializerMixin):
@@ -45,7 +45,7 @@ class Power(db.Model, SerializerMixin):
     heroes = db.relationship('Hero', secondary='hero_powers', back_populates='powers', overlaps='hero_powers')
 
     def __repr__(self):
-        return f'<Power {self.name}: {self.description}>'
+        return f'<Power {self.id}: {self.name} - {self.description}>'
 
 # HeroPower Model (association table)
 class HeroPower(db.Model, SerializerMixin):
@@ -67,8 +67,9 @@ class HeroPower(db.Model, SerializerMixin):
 
     @validates('strength')
     def validate_strength(self, key, value):
-        if value not in ['Strong', 'Weak', 'Average']:
-            raise ValueError("strength must be one of the following values: 'Strong', 'Weak', 'Average'")
+        valid_strengths = ['Strong', 'Weak', 'Average']
+        if value not in valid_strengths:
+            raise ValueError(f"strength must be one of the following values: {', '.join(valid_strengths)}")
         return value
 
     @validates('hero_id', 'power_id')

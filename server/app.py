@@ -25,7 +25,7 @@ def home():
 # Getting Heroes
 @app.route('/heroes', methods=['GET'])
 def get_heroes():
-    # Query all heroes from the database
+    # Querying all heroes from the database
     heroes = Hero.query.all()
     
     # Serializing the heroes
@@ -40,6 +40,37 @@ def get_heroes():
     
     return jsonify(hero_list)
 
+# Getting heroes by ID and populating relevant details
+@app.route('/heroes/<int:id>', methods=['GET'])
+def fetch_hero(id):
+    # Fetching the hero by ID along with their associated powers
+    hero = Hero.query.get(id)
+    if hero is None:
+        return jsonify({"error": "Hero not found"}), 404
+
+    response_data = {
+        "id": hero.id,
+        "name": hero.name,
+        "super_name": hero.super_name,
+        "hero_powers": []
+    }
+
+    for hero_power in hero.hero_powers:
+        power = hero_power.power
+        hero_power_data = {
+            "hero_id": hero.id,
+            "id": hero_power.id,
+            "power_id": hero_power.power_id,
+            "strength": hero_power.strength,
+            "power": {
+                "description": power.description,
+                "id": power.id,
+                "name": power.name
+            }
+        }
+        response_data["hero_powers"].append(hero_power_data)
+
+    return jsonify(response_data), 200
 
 
 
