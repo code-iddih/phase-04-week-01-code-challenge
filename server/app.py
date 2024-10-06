@@ -72,6 +72,24 @@ def fetch_hero(id):
 
     return jsonify(response_data), 200
 
+# Getting Powers
+@app.route('/powers', methods=['GET'])
+def get_powers():
+    # Query all powers from the database
+    powers = Power.query.all()
+    
+    # Prepare the response data
+    response_data = []
+    for power in powers:
+        power_data = {
+            "id": power.id,
+            "name": power.name,
+            "description": power.description
+        }
+        response_data.append(power_data)
+    
+    return jsonify(response_data), 200
+
 
 
 
