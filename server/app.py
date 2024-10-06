@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, make_response, jsonify
+from flask import Flask, make_response, jsonify, request
 from flask_migrate import Migrate
 
 from models import db, Hero, Power, HeroPower  
@@ -75,10 +75,10 @@ def fetch_hero(id):
 # Getting Powers
 @app.route('/powers', methods=['GET'])
 def get_powers():
-    # Query all powers from the database
+    # Querying all powers from the database
     powers = Power.query.all()
     
-    # Prepare the response data
+    # Preparing the response data
     response_data = []
     for power in powers:
         power_data = {
@@ -89,6 +89,66 @@ def get_powers():
         response_data.append(power_data)
     
     return jsonify(response_data), 200
+
+# Getting Powers By ID
+@app.route('/powers/<int:id>', methods=['GET'])
+def get_power_by_id(id):
+    # Querying the database for the power with the specified id
+    power = Power.query.get(id)
+
+    if power:
+        # Preparing the response data for the existing power
+        response_data = {
+            "id": power.id,
+            "name": power.name,
+            "description": power.description
+        }
+        return jsonify(response_data), 200
+    else:
+        # If the power does not exist, return an error message
+        return jsonify({"error": "Power not found"}), 404
+    
+# Updating Power
+@app.route('/powers/<int:id>', methods=['PATCH'])
+def update_power(id):
+    # Fetching the power by ID
+    power = Power.query.get(id)
+    
+    # If power does not exist, return error
+    if power is None:
+        return jsonify({"error": "Power not found"}), 404
+
+    # Getting the JSON data from the request
+    data = request.get_json()
+
+    # Validaing the description field
+    if 'description' not in data:
+        return jsonify({"errors": ["description must not be empty"]}), 400
+
+    description = data['description']
+
+    # Checking if description is empty
+    if not description.strip():
+        return jsonify({"errors": ["description must not be empty"]}), 400
+
+    # Checking if description length is at least 20 characters
+    if len(description) < 20:
+        return jsonify({"errors": ["description must be at least 20 characters long"]}), 400
+
+    # Updaing the power's description
+    power.description = description
+    
+    # Committing the changes to the database
+    db.session.commit()
+    
+    # Returning the updated power details
+    return jsonify({
+        "description": power.description,
+        "id": power.id,
+        "name": power.name
+    }), 200
+
+
 
 
 

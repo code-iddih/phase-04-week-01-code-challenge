@@ -77,3 +77,11 @@ class HeroPower(db.Model, SerializerMixin):
         if value is None:
             raise ValueError(f"{key} must not be null")
         return value
+    
+    @validates('description')
+    def validate_description(self, key, value):
+        if not value:
+            raise ValueError("description must be present")
+        if len(value) < 20:
+            raise ValueError("description must be at least 20 characters long")
+        return value
