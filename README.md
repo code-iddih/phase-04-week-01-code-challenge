@@ -4,20 +4,6 @@
 
 The Superhero API is a RESTful web application built using Flask and SQLAlchemy that allows users to interact with a database of superheroes, their powers, and the relationships between them. The API enables the management of heroes and powers, as well as the ability to assign powers to heroes with specific strength levels.
 
-### Overview
-
-For this assignment, we'll be working with a Concert domain.
-
-We have three models: `Band`, `Concert`, and `Venue`.
-
-For our purposes, a `Band` has many `Concert`s, a `Venue` has many `Concert`s,
-and a `Concert` belongs to a `Band` and to a `Venue`.
-
-`Band` - `Venue` is a many to many relationship.
-
-**Note**: You should draw your domain on paper or on a whiteboard _before you
-start coding_. Remember to identify a single source of truth for your data.
-
 ## Topic Covered
 
 1. **SQLAlchemy Migrations:**
@@ -46,7 +32,7 @@ start coding_. Remember to identify a single source of truth for your data.
 - **PATCH** requests for updating specific records (e.g., updating a `Power’s` description with proper validation).
 - **POST** requests for creating associations between heroes and powers (e.g., `/hero_powers`).
 
-6. Error Handling with IntegrityError:
+6. **Error Handling with IntegrityError:**
 
 - Managing database integrity errors using `try-except` blocks to catch violations such as foreign key constraints during record creation in `HeroPower`.
 
