@@ -16,8 +16,29 @@ migrate = Migrate(app, db)
 
 db.init_app(app)
 
+# Home Page
+@app.route('/', methods=['GET'])
+def home():
+    return 'Welcome to the Superhero API! Use /heroes to get a list of superheroes.'
 
 
+# Getting Heroes
+@app.route('/heroes', methods=['GET'])
+def get_heroes():
+    # Query all heroes from the database
+    heroes = Hero.query.all()
+    
+    # Serializing the heroes
+    hero_list = [
+        {
+            'id': hero.id,
+            'name': hero.name,
+            'super_name': hero.super_name
+        }
+        for hero in heroes
+    ]
+    
+    return jsonify(hero_list)
 
 
 
