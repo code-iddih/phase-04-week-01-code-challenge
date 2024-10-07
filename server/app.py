@@ -154,34 +154,30 @@ def update_power(id):
 def create_hero_power():
     data = request.get_json()
 
-    # Extracting data from the request
     strength = data.get('strength')
     power_id = data.get('power_id')
     hero_id = data.get('hero_id')
 
-    # Validating input
     if not strength or not isinstance(strength, str):
         return jsonify({"errors": ["strength must not be empty"]}), 400
 
-    # Creating a new HeroPower instance
-    new_hero_power = HeroPower(strength=strength, power_id=power_id, hero_id=hero_id)
-
+    # Creating a new HeroPower instance and catching validation errors
     try:
-        # Adding and committing the new HeroPower
+        new_hero_power = HeroPower(strength=strength, power_id=power_id, hero_id=hero_id)
         db.session.add(new_hero_power)
         db.session.commit()
+    except ValueError as e:
+        return jsonify({"errors": str(e)}), 400  # Catching the ValueError and returning JSON response
     except IntegrityError:
         db.session.rollback()  # Rolling back the session to prevent partial changes
-        return jsonify({"errors": ["validation errors"]}), 400  
+        return jsonify({"errors": ["validation errors"]}), 400
 
-    # Fetching the associated Hero and Power
     hero = Hero.query.get(hero_id)
     power = Power.query.get(power_id)
 
     if hero is None or power is None:
         return jsonify({"errors": ["Hero or Power not found"]}), 404
 
-    # Creating the response in the specified format
     response = {
         "id": new_hero_power.id,
         "hero_id": new_hero_power.hero_id,
@@ -199,11 +195,7 @@ def create_hero_power():
         }
     }
 
-    return jsonify(response), 201 
-
-
-
-
+    return jsonify(response), 201
 
 
 
