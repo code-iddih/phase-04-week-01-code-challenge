@@ -100,7 +100,7 @@ Downlaod any of them here:\
 
 ## Routes
 
-1. GET /`heroes`
+**1. GET /`heroes`**
 
 - Retrieves a list of all heroes from the database. Each hero is serialized with their `id`, `name`, and `super_name`.
 
@@ -161,7 +161,7 @@ Expected Output:
 ]
 ```
 
-2. GET /`heroes/:id`
+**2. GET /`heroes/:id`**
 
 - Fetches the details of a specific hero by their `id`. This includes the hero's name, super_name, and the powers they possess (via the `HeroPower` association).
 
@@ -188,7 +188,7 @@ Expected Output:
 }
 ```
 
-3. GET /`powers`
+**3. GET /`powers`**
 
 - Returns a list of all powers from the database. Each power is serialized with its `id`, `name`, and `description`.
 
@@ -219,7 +219,7 @@ Expected Output:
 ]
 ```
 
-4. GET /`powers/:id`
+**4. GET /`powers/:id`**
 
 - Retrieves details of a specific power by its `id`. The response includes the power's id, `name`, and `description`.
 
@@ -233,7 +233,7 @@ Expected Output:
 }
 ```
 
-5. PATCH /`powers/:id`
+**5. PATCH /`powers/:id`**
 
 - Updates the description of a specific power by `id`. If the new description passes validation (not empty and at least 20 characters), the power is updated and returned; otherwise, appropriate validation errors are returned.
 
@@ -247,7 +247,7 @@ Expected Output:
 }
 ```
 
-6. POST /`hero_powers`
+**6. POST /`hero_powers`**
 
 - Creates a new `HeroPower` linking an existing hero and power. The request accepts `strength`, `power_id`, and `hero_id`, and if successful, returns the newly created hero power data along with the related hero and power information.
 
