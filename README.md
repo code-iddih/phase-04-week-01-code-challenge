@@ -95,11 +95,9 @@ python3 app.py
 *Step 6:* **specifically Use API Platform to test for `PATCH` and `POST` routes::**
 
 Downlaod any of them here:
-
-```txt
 [postman](https://postman.com)
 [insomnia](https://insomnia.rest/)
-```
+
 ## Routes
 
 1. GET /`heroes`
