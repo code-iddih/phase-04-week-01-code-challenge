@@ -54,6 +54,52 @@ Sending properly formatted JSON responses with appropriate HTTP status codes (e.
 - A `Power` has many `Hero`s through `HeroPower`
 - A `HeroPower` belongs to a `Hero` and belongs to a `Power`
 
+
+
+## Instructions to run the program:
+
+*Step 1:* **Clone the repository to your preferred directory:**
+
+```txt
+git clone git@github.com:code-iddih/phase-04-week-01-code-challenge.git
+```
+
+*Step 1:* **Navigate to root directory:**
+
+```txt
+cd phase-04-week-01-code-challenge
+```
+
+*Step 2:* **Install dependencies (listed in `Pipfile`):**
+
+```txt
+pipenv install
+```
+*Step 3:* **Activate the virtual environment:**
+
+```txt
+pipenv shell
+```
+*Step 4:* **Navigate to Server directory:**
+
+```txt
+cd server
+```
+*Step 5:* **Run the application:**
+
+```txt
+python3 app.py
+```
+*Step 6:* **Test the Routes in the browser or API Platform:**
+
+*Step 6:* **specifically Use API Platform to test for `PATCH` and `POST` routes::**
+
+Downlaod any of them here:
+
+```txt
+postman[https://postman.com]
+insomnia[https://insomnia.rest/]
+```
 ## Routes
 
 1. GET /`heroes`
@@ -228,29 +274,3 @@ Expected Output:
 }
 ```
 
-
-## Instructions to run the program:
-
-*Step 1:* **Navigate to root directory:**
-
-*Step 2:* **Install dependencies (listed in `Pipfile`):**
-
-```txt
-pipenv install
-```
-*Step 3:* **Activate the virtual environment:**
-
-```txt
-pipenv shell
-```
-*Step 4:* **Navigate to Server directory:**
-
-```txt
-cd server
-```
-*Step 5:* **Run the application:**
-
-```txt
-python3 app.py
-```
-*Step 6:* **Test the Routes (Indicated above)**
