@@ -97,8 +97,8 @@ python3 app.py
 Downlaod any of them here:
 
 ```txt
-postman (https://postman.com)
-insomnia (https://insomnia.rest/)
+[postman](https://postman.com)
+[insomnia](https://insomnia.rest/)
 ```
 ## Routes
 
