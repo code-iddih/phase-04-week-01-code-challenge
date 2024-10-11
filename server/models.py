@@ -65,23 +65,3 @@ class HeroPower(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<HeroPower Strength {self.strength}>'
 
-    @validates('strength')
-    def validate_strength(self, key, value):
-        valid_strengths = ['Strong', 'Weak', 'Average']
-        if value not in valid_strengths:
-            raise ValueError(f"strength must be one of the following values: {', '.join(valid_strengths)}")
-        return value
-
-    @validates('hero_id', 'power_id')
-    def validate_ids(self, key, value):
-        if value is None:
-            raise ValueError(f"{key} must not be null")
-        return value
-    
-    @validates('description')
-    def validate_description(self, key, value):
-        if not value:
-            raise ValueError("description must be present")
-        if len(value) < 20:
-            raise ValueError("description must be at least 20 characters long")
-        return value

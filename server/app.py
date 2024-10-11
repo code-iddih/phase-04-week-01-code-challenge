@@ -124,17 +124,17 @@ def update_power(id):
 
     # Validaing the description field
     if 'description' not in data:
-        return jsonify({"errors": ["description must not be empty"]}), 400
+        return jsonify({"errors": ["The description can not be empty"]}), 400
 
     description = data['description']
 
     # Checking if description is empty
     if not description.strip():
-        return jsonify({"errors": ["description must not be empty"]}), 400
+        return jsonify({"errors": ["The description can not be empty"]}), 400
 
     # Checking if description length is at least 20 characters
     if len(description) < 20:
-        return jsonify({"errors": ["description must be at least 20 characters long"]}), 400
+        return jsonify({"errors": ["The description must be at least 20 characters long"]}), 400
 
     # Updaing the power's description
     power.description = description
@@ -152,31 +152,52 @@ def update_power(id):
 # POST
 @app.route('/hero_powers', methods=['POST'])
 def create_hero_power():
-    data = request.get_json()
+    try:
+        data = request.get_json(force=True)  # Force JSON parsing
+    except Exception:
+        return jsonify({"errors": ["Invalid JSON format"]}), 400
 
     strength = data.get('strength')
     power_id = data.get('power_id')
     hero_id = data.get('hero_id')
 
+    errors = []
+
+    # Validating strength
     if not strength or not isinstance(strength, str):
-        return jsonify({"errors": ["strength must not be empty"]}), 400
+        errors.append("The strength can not be empty")
 
-    # Creating a new HeroPower instance and catching validation errors
-    try:
-        new_hero_power = HeroPower(strength=strength, power_id=power_id, hero_id=hero_id)
-        db.session.add(new_hero_power)
-        db.session.commit()
-    except ValueError as e:
-        return jsonify({"errors": str(e)}), 400  # Catching the ValueError and returning JSON response
-    except IntegrityError:
-        db.session.rollback()  # Rolling back the session to prevent partial changes
-        return jsonify({"errors": ["validation errors"]}), 400
+    valid_strengths = ['Strong', 'Weak', 'Average']
+    if strength not in valid_strengths:
+        errors.append(f"The strength must be one of the following values: {', '.join(valid_strengths)}")
 
+    # Validate hero_id
+    if hero_id is None:
+        errors.append("The hero_id can not be empty")
+    if not power_id:  # Check if power_id is empty
+        errors.append("The power_id can not be empty")
+
+    # If there are any validation errors, return them
+    if errors:
+        return jsonify({"errors": errors}), 400
+
+    # Checking if the hero and power exist
     hero = Hero.query.get(hero_id)
     power = Power.query.get(power_id)
 
     if hero is None or power is None:
         return jsonify({"errors": ["Hero or Power not found"]}), 404
+
+    # Creating a new HeroPower instance
+    try:
+        new_hero_power = HeroPower(strength=strength, power_id=power_id, hero_id=hero_id)
+        db.session.add(new_hero_power)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()  # Rolling back the session to prevent partial changes
+        return jsonify({"errors": ["Validation errors"]}), 400
+    except ValueError as e:
+        return jsonify({"errors": str(e)}), 400  # Catching the ValueError and returning JSON response
 
     response = {
         "id": new_hero_power.id,
