@@ -4,7 +4,7 @@
 
 The Superhero API is a RESTful web application built using Flask and SQLAlchemy that allows users to interact with a database of superheroes, their powers, and the relationships between them. The API enables the management of heroes and powers, as well as the ability to assign powers to heroes with specific strength levels.
 
-## Topic Covered
+## Topics / Features Covered
 
 1. **SQLAlchemy Migrations:**
 
@@ -97,8 +97,8 @@ python3 app.py
 Downlaod any of them here:
 
 ```txt
-postman[https://postman.com]
-insomnia[https://insomnia.rest/]
+postman (https://postman.com)
+insomnia (https://insomnia.rest/)
 ```
 ## Routes
 
