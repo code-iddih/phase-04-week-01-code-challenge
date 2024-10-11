@@ -119,9 +119,9 @@ Expected Output:
 
 2. GET /`heroes/:id`
 
-Expected Output:
-
 - Fetches the details of a specific hero by their `id`. This includes the hero's name, super_name, and the powers they possess (via the `HeroPower` association).
+
+Expected Output:
 
 ```txt
 {
