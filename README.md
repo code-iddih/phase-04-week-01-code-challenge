@@ -60,24 +60,174 @@ Sending properly formatted JSON responses with appropriate HTTP status codes (e.
 
 - Retrieves a list of all heroes from the database. Each hero is serialized with their `id`, `name`, and `super_name`.
 
+Expected Output:
+
+```txt
+[
+ {
+  "id": 1,
+  "name": "Kamala Khan",
+  "super_name": "Ms. Marvel"
+ },
+ {
+  "id": 2,
+  "name": "Doreen Green",
+  "super_name": "Squirrel Girl"
+ },
+ {
+  "id": 3,
+  "name": "Gwen Stacy",
+  "super_name": "Spider-Gwen"
+ },
+ {
+  "id": 4,
+  "name": "Janet Van Dyne",
+  "super_name": "The Wasp"
+ },
+ {
+  "id": 5,
+  "name": "Wanda Maximoff",
+  "super_name": "Scarlet Witch"
+ },
+ {
+  "id": 6,
+  "name": "Carol Danvers",
+  "super_name": "Captain Marvel"
+ },
+ {
+  "id": 7,
+  "name": "Jean Grey",
+  "super_name": "Dark Phoenix"
+ },
+ {
+  "id": 8,
+  "name": "Ororo Munroe",
+  "super_name": "Storm"
+ },
+ {
+  "id": 9,
+  "name": "Kitty Pryde",
+  "super_name": "Shadowcat"
+ },
+ {
+  "id": 10,
+  "name": "Elektra Natchios",
+  "super_name": "Elektra"
+ }
+]
+```
+
 2. GET /`heroes/:id`
 
+Expected Output:
+
 - Fetches the details of a specific hero by their `id`. This includes the hero's name, super_name, and the powers they possess (via the `HeroPower` association).
+
+```txt
+{
+  "id": 1,
+  "name": "Kamala Khan",
+  "super_name": "Ms. Marvel",
+  "hero_powers": [
+     {
+       "hero_id": 1,
+       "id": 1,
+       "power": {
+              "description": "gives the wielder the ability to fly through the skies at supersonic speed",
+              "id": 2,
+              "name": "flight"
+        },
+       "power_id": 2,
+       "strength": "Strong"
+        }
+   ]
+}
+```
+
 3. GET /`powers`
 
 - Returns a list of all powers from the database. Each power is serialized with its `id`, `name`, and `description`.
+
+Expected Output:
+
+```txt
+[
+ {
+    "description": "gives the wielder super-human strengths",
+    "id": 1,
+    "name": "super strength"
+ },
+ {
+    "description": "gives the wielder the ability to fly through the skies at supersonic speed",
+    "id": 2,
+    "name": "flight"
+ },
+ {
+    "description": "allows the wielder to use her senses at a super-human level",
+    "id": 3,
+    "name": "super human senses"
+ },
+ {
+    "description": "can stretch the human body to extreme lengths",
+    "id": 4,
+    "name": "elasticity"
+ }
+]
+```
 
 4. GET /`powers/:id`
 
 - Retrieves details of a specific power by its `id`. The response includes the power's id, `name`, and `description`.
 
+Expected Output:
+
+```txt
+{
+  "description": "gives the wielder super-human strengths",
+  "id": 1,
+  "name": "super strength"
+}
+```
+
 5. PATCH /`powers/:id`
 
 - Updates the description of a specific power by `id`. If the new description passes validation (not empty and at least 20 characters), the power is updated and returned; otherwise, appropriate validation errors are returned.
 
+Expected Output:
+
+```txt
+{
+  "description": "Valid Updated Description",
+  "id": 1,
+  "name": "super strength"
+}
+```
+
 6. POST /`hero_powers`
 
 - Creates a new `HeroPower` linking an existing hero and power. The request accepts `strength`, `power_id`, and `hero_id`, and if successful, returns the newly created hero power data along with the related hero and power information.
+
+Expected Output:
+
+```txt
+{
+ "id": 11,
+ "hero_id": 3,
+ "power_id": 1,
+ "strength": "Average",
+ "hero": {
+    "id": 3,
+    "name": "Gwen Stacy",
+    "super_name": "Spider-Gwen"
+ },
+ "power": {
+    "description": "gives the wielder super-human strengths",
+    "id": 1,
+    "name": "super strength"
+ }
+}
+```
+
 
 ## Instructions to run the program:
 
@@ -93,10 +243,10 @@ pipenv install
 ```txt
 pipenv shell
 ```
-*Step 4:* **Run the alembic migrations to set up your database:**
+*Step 4:* **Navigate to Server directory:**
 
 ```txt
-alembic upgrade head
+cd server
 ```
 *Step 5:* **Run the application:**
 
